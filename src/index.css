@@ -1,14 +1,12 @@
 :root {
   --color-primary: #441752;
-  --color-primary-light: #8e2de2;
+  --color-primary-light: #960e39;
   --color-text: #e0e0e0;
   --color-text-dark: #b0b0b0;
   --color-background-100: #1e1e2f;
   --color-background-500: #2a2a40;
   --color-background-900: #1a1a2e;
-  --color-red: #ff4757;
-  --color-red-dark: #ff6b81;
-  --color-green: #2ed573;
+
   --color-gradient: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
 }
 
@@ -19,15 +17,15 @@
 }
 
 html {
-  font-size: 62.5%;
+  font-size:60%;
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   color: var(--color-text);
   background-color: var(--color-background-900);
   line-height: 1.6;
-  padding: 2.4rem;
+  padding: 3rem;
 }
 
 /* ******* NAVBAR ******* */
@@ -39,7 +37,7 @@ body {
   background: var(--color-gradient);
   border-radius: 1.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  animation: fadeIn 1s ease-in-out;
+  animation: fadeIn 1s ease-in-out; 
 }
 
 .logo {
@@ -186,7 +184,7 @@ body {
 }
 
 .details-overview h2 {
-  font-size: 2.4rem;
+  font-size: 2.9rem;
   font-weight: 700;
   margin-bottom: 1rem;
 }
@@ -223,17 +221,24 @@ body {
 /* ******* WATCHED SUMMARY ******* */
 .summary {
   padding: 2rem;
-  background: var(--color-background-100);
   border-radius: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   animation: fadeIn 1s ease-in-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.summary:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
 }
 
 .summary h2 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
   text-align: center;
+  color: #fff;
+  text-transform: uppercase;
 }
 
 .summary div {
@@ -242,7 +247,27 @@ body {
   gap: 1rem;
   font-size: 1.6rem;
   font-weight: 500;
+  color: #fff;
 }
+
+.summary div p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  
+}
+
+.summary div p:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
 
 /* ******* ANIMATIONS ******* */
 @keyframes fadeIn {
@@ -275,19 +300,25 @@ body {
 }
 
 /* ******* RESPONSIVE DESIGN ******* */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  html {
+    font-size: 55%;
+  }
+
   .nav-bar {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     padding: 1.5rem;
+    text-align: center;
   }
 
   .search {
-    max-width: 100%;
+    max-width: 90%;
   }
 
   .main {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
   }
 
   .details header {
@@ -296,6 +327,86 @@ body {
   }
 
   .details img {
+    max-width: 80%;
+  }
+}
+
+
+@media (max-width: 768px) {
+  html {
+    font-size: 50%;
+  }
+
+  .nav-bar {
+    padding: 1rem;
+  }
+
+  .search {
+    width: 100%;
     max-width: 100%;
+  }
+
+  .main {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .box {
+    padding: 1.5rem;
+  }
+
+  .list li {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .list img {
+    width: 8rem;
+    height: 12rem;
+  }
+
+  .details img {
+    max-width: 100%;
+  }
+
+  .summary div {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .btn-add {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+
+@media (max-width: 480px) {
+  html {
+    font-size: 45%;
+  }
+
+  .nav-bar {
+    padding: 1rem;
+  }
+
+  .search {
+    font-size: 1.4rem;
+    padding: 0.8rem;
+  }
+
+  .list li {
+    padding: 1rem;
+  }
+
+  .details-overview h2 {
+    font-size: 2.4rem;
+  }
+
+  .btn-add {
+    font-size: 1.4rem;
+    padding: 0.8rem;
   }
 }

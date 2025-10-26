@@ -7,7 +7,7 @@ import { useMovies } from "./hooks/useMovies";
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const KEY = "27a71065";
+const KEY = import.meta.env.VITE_API_KEY;
 
 export default function App() {
   const [query, setQuery] = useState("");

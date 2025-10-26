@@ -205,7 +205,6 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     Genre: genre,
   } = movie;
 
-  const isTop = imdbRating > 8;
 
   function handleAdd() {
     const newWatchedMovie = {
@@ -230,9 +229,8 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       async function getMovieDetails() {
         try {
           setIsLoading(true);
-          const res = await fetch(
-            `https://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
-          );
+const res = await fetch(`https://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+
 
           if (!res.ok) throw new Error("Failed to fetch movie details");
 

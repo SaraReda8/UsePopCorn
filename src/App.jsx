@@ -41,7 +41,6 @@ export default function App() {
 
       <Main>
         <Box>
-          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
           {isLoading && <Loader />}
           {!isLoading && !error && (
             <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
@@ -149,7 +148,6 @@ function Box({ children }) {
   );
 }
 
-
 function MovieList({ movies, onSelectMovie }) {
   return (
     <ul className="list list-movies">
@@ -207,21 +205,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     Genre: genre,
   } = movie;
 
-  // if (imdbRating > 8) return <p>Greatest ever!</p>;
-  // if (imdbRating > 8) [isTop, setIsTop] = useState(true);
-
-  // const [isTop, setIsTop] = useState(imdbRating > 8);
-  // console.log(isTop);
-  // useEffect(
-  //   function () {
-  //     setIsTop(imdbRating > 8);
-  //   },
-  //   [imdbRating]
-  // );
-
   const isTop = imdbRating > 8;
-  console.log(isTop);
-
 
   function handleAdd() {
     const newWatchedMovie = {
@@ -237,9 +221,6 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
     onAddWatched(newWatchedMovie);
     onCloseMovie();
-
-    // setAvgRating(Number(imdbRating));
-    // setAvgRating((avgRating) => (avgRating + userRating) / 2);
   }
 
   useKey("Escape", onCloseMovie);
@@ -247,12 +228,25 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   useEffect(
     function () {
       async function getMovieDetails() {
-        setIsLoading(true);
-  const res = await fetch(`https://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+        try {
+          setIsLoading(true);
+          const res = await fetch(
+            `https://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
+          );
 
-        const data = await res.json();
-        setMovie(data);
-        setIsLoading(false);
+          if (!res.ok) throw new Error("Failed to fetch movie details");
+
+          const data = await res.json();
+
+          if (data.Response === "False")
+            throw new Error(data.Error || "Movie not found");
+
+          setMovie(data);
+        } catch (err) {
+          console.error(err.message);
+        } finally {
+          setIsLoading(false);
+        }
       }
       getMovieDetails();
     },
@@ -266,7 +260,6 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
       return function () {
         document.title = "usePopcorn";
-        // console.log(`Clean up effect for movie ${title}`);
       };
     },
     [title]
@@ -282,7 +275,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
             <button className="btn-back" onClick={onCloseMovie}>
               &larr;
             </button>
-            <img src={poster} alt={`Poster of ${movie} movie`} />
+            <img src={poster} alt={`Poster of ${title} movie`} />
             <div className="details-overview">
               <h2>{title}</h2>
               <p>
@@ -295,8 +288,6 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
               </p>
             </div>
           </header>
-
-          {/* <p>{avgRating}</p> */}
 
           <section>
             <div className="rating">
@@ -315,7 +306,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
                 </>
               ) : (
                 <p>
-                  You rated with movie {watchedUserRating} <span>⭐️</span>
+                  You rated this movie {watchedUserRating} <span>⭐️</span>
                 </p>
               )}
             </div>
@@ -354,7 +345,7 @@ function WatchedSummary({ watched }) {
         </p>
         <p>
           <span>⏳</span>
-          <span>{avgRuntime} min</span>
+          <span>{avgRuntime.toFixed(0)} min</span>
         </p>
       </div>
     </div>
